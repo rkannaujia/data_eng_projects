@@ -1,0 +1,8 @@
+1.create virtual environment
+>python -m venv .venv
+2.create dotenv file using for store the credentials
+>.env 
+3.Create python file and import required libreary
+pip install boto3  #for making connection with client(like s3)
+pip install load-dotenv # to access the variable of .env file
+

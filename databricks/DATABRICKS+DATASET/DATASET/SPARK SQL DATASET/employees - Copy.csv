@@ -1,0 +1,11 @@
+emp_id,emp_name,country,salary,dept_id
+101,Anita,IN,75000,10
+102,Raj,IN,65000,20
+103,Meera,IN,55000,10
+104,John,US,80000,30
+105,Sophia,US,90000,20
+106,Liam,UK,72000,30
+107,Olivia,UK,60000,40
+108,Emma,CA,58000,20
+109,Noah,CA,67000,40
+110,Aarav,IN,50000,50

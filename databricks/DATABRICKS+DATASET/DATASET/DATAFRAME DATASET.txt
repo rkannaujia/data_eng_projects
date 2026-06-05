@@ -1,0 +1,127 @@
+--- DISTINCT & DROP DUPLICATES lecture dataset 
+
+data = [
+    (1, "Alice", 23),
+    (2, "Bob", 34),
+    (3, "Charlie", 29),
+    (1, "Alice", 23),   # duplicate row
+    (2, "Bob", 34),     # duplicate row
+    (6, "Alice", 30)    # same name, different age
+]
+
+columns = ["id", "name", "age"]
+
+df = spark.createDataFrame(data, columns)
+display(df)
+
+--------------------------------------------------------------------------------------------------------------------------
+
+
+----GROUPBY TRANSFORMATION DATA -lecture dataset 
+
+data = [
+    (1, "Alice", "NY", 2000),
+    (2, "Bob", "CA", 1500),
+    (3, "Charlie", "NY", 3000),
+    (4, "David", "CA", 2500),
+    (5, "Eve", "TX", 1800),
+    (6, "Frank", "TX", 2200),
+]
+
+columns = ["id", "name", "state", "salary"]
+
+df = spark.createDataFrame(data, columns)
+display(df)
+
+--------------------------------------------------------------------------------------------------------------------------------------------
+
+--- JOINING DATASET 
+
+emp_data = [
+    (1, "Alice", 1),
+    (2, "Bob", 2),
+    (3, "Charlie", 3),
+    (4, "David", 5)   # dept_id not in dept
+]
+emp_columns = ["emp_id", "name", "dept_id"]
+
+emp_df = spark.createDataFrame(emp_data, emp_columns)
+emp_df.show()
+
+dept_data = [
+    (1, "HR"),
+    (2, "IT"),
+    (3, "Finance"),
+    (4, "Marketing")
+]
+dept_columns = ["dept_id", "dept_name"]
+
+dept_df = spark.createDataFrame(dept_data, dept_columns)
+dept_df.show()
+
+
+---------------------------------------------------------------------------------------------------------------------------------------------------
+
+UNION & UNION ALL
+
+data1 = [
+    (1, "Alice", "HR"),
+    (2, "Bob", "IT")
+]
+columns = ["id", "name", "dept"]
+
+df1 = spark.createDataFrame(data1, columns)
+df1.show()
+
+
+data2 = [
+    (3, "Charlie", "Finance"),
+    (4, "David", "IT"),
+    (2, "Bob", "IT")   # duplicate row
+]
+
+df2 = spark.createDataFrame(data2, columns)
+df2.show()
+
+
+
+
+
+------------------------------------------------------------------------------------------------------------
+
+STRUCTTYPE AND STRUCT FIELD 
+
+from pyspark.sql.types import StructType, StructField, StringType, IntegerType
+from pyspark.sql import SparkSession
+
+# Define schema
+schema = StructType([
+    StructField("id", IntegerType(), False),      # not nullable
+    StructField("name", StringType(), True),      # nullable
+    StructField("age", IntegerType(), True)       # nullable
+])
+
+# Sample data
+data = [(1, "Alice", 30), (2, "Bob", 25), (3, None, 40)]
+
+# Create DataFrame with schema
+df = spark.createDataFrame(data, schema)
+
+df.show()
+df.printSchema()
+
+----------------------------------------------------------------------------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+
+

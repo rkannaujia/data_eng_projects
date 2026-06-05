@@ -1,0 +1,4 @@
+customer_id,first_name,last_name,country,segment
+c1,Anita,Patel,IN,Prime
+c2,John,Doe,US,Standard
+c3,Meera,Nair,IN,Standard

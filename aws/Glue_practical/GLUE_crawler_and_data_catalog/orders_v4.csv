@@ -1,0 +1,7 @@
+order_id,amount,country,payment_type,salary
+7,400,India,UPI,1000
+8,500,Canada,CARD,19000
+9,600,USA,NETBANKING,100909092
+10,450,UK,UPI,1888
+11,550,India,CARD,2772
+12,650,Germany,CASH,8828

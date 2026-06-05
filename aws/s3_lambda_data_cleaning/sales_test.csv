@@ -1,0 +1,15 @@
+order_id,amount,country
+1,100,India
+2,200,USA
+3,300,UK
+1,100,India
+4,,Germany
+5,abc,France
+2,200,USA
+6,400, India
+7,500,INDIA
+3,300,UK
+8,600,Canada
+9,700,USA
+10,800,UK
+7,500,INDIA
