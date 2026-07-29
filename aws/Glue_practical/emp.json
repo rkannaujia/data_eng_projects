@@ -1,0 +1,50 @@
+[
+  {
+    "emp_id": 6,
+    "name": "rahul",
+    "salary": 0,
+    "address": "india",
+    "loc": "",
+    "email": ""
+  },
+  {
+    "emp_id": 2,
+    "name": "rani",
+    "salary": 20000,
+    "address": "usa",
+    "loc": "",
+    "email": ""
+  },
+  {
+    "emp_id": 3,
+    "name": "rinku",
+    "salary": 55000,
+    "address": "india",
+    "loc": "",
+    "email": ""
+  },
+  {
+    "emp_id": 5,
+    "name": "",
+    "salary": 20000,
+    "address": "usa",
+    "loc": "",
+    "email": ""
+  },
+  {
+    "emp_id": 1,
+    "name": "manish",
+    "salary": 10000,
+    "address": "india",
+    "loc": "",
+    "email": ""
+  },
+  {
+    "emp_id": 4,
+    "name": "neha",
+    "salary": 12000,
+    "address": "usa",
+    "loc": "",
+    "email": ""
+  }
+]

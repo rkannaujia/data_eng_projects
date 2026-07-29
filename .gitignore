@@ -1,0 +1,14 @@
+# Protect credentials and environment variables
+python/s3Access/.env
+.env
+.env.local
+
+# Python build and cache files
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+env/
+venv/
+.venv/

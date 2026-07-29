@@ -1,0 +1,42 @@
+CREATE STREAMING TABLE bronze_orders
+COMMENT "Raw orders from UC Volume via Auto Loader"
+AS
+SELECT *
+FROM cloud_files(
+  '/Volumes/demo/dlt/orders_vol/orders',  -- folder with JSON files
+  'json',
+  map(
+    'cloudFiles.inferColumnTypes','true',
+    'cloudFiles.includeExistingFiles','true',   -- load existing files first
+    'cloudFiles.schemaEvolutionMode','addNewColumns'
+  )
+);
+
+
+CREATE MATERIALIZED VIEW silver_orders
+COMMENT "Curated orders (Completed only) with quality checks"
+AS
+SELECT
+  order_id,
+  customer_id,
+  country,
+  CAST(order_ts AS TIMESTAMP) AS order_ts,
+  CAST(amount  AS DOUBLE)     AS amount,
+  status
+FROM bronze_orders
+WHERE status = 'Completed';
+
+
+CREATE VIEW in_orders
+COMMENT "India-only orders from Silver"
+AS
+SELECT *
+FROM silver_orders
+WHERE country = 'IN';
+
+CREATE TABLE gold_sales_daily
+COMMENT "Daily sales by country"
+AS
+SELECT DATE(order_ts) AS order_date, country, SUM(amount) AS total_sales
+FROM silver_orders
+GROUP BY DATE(order_ts), country;

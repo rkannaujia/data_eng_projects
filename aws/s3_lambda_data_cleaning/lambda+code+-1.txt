@@ -1,0 +1,77 @@
+import boto3
+import csv
+import io
+from datetime import datetime
+
+s3 = boto3.client("s3")
+
+def lambda_handler(event, context):
+
+    # 1️⃣ Get bucket & file details from S3 event
+    bucket_name = event["Records"][0]["s3"]["bucket"]["name"]
+    object_key = event["Records"][0]["s3"]["object"]["key"]
+
+    # Process only files from raw folder
+    if not object_key.startswith("raw/"):
+        return {"status": "ignored"}
+
+    print(f"Processing file: {object_key}")
+
+    # 2️⃣ Download CSV file from S3
+    response = s3.get_object(Bucket=bucket_name, Key=object_key)
+    csv_data = response["Body"].read().decode("utf-8")
+
+    # 3️⃣ Read CSV content
+    reader = csv.DictReader(io.StringIO(csv_data))
+    unique_records = set()
+    cleaned_rows = []
+
+    for row in reader:
+        try:
+            order_id = row["order_id"].strip()
+            amount = row["amount"].strip()
+            country = row["country"].strip()
+
+            # Skip empty values
+            if not order_id or not amount or not country:
+                continue
+
+            # Create unique key for deduplication
+            unique_key = (order_id, amount, country)
+
+            if unique_key not in unique_records:
+                unique_records.add(unique_key)
+                cleaned_rows.append(row)
+
+        except Exception as e:
+            print("Row skipped due to error:", e)
+            continue
+
+    # 4️⃣ Prepare cleaned CSV file
+    output_buffer = io.StringIO()
+    fieldnames = ["order_id", "amount", "country"]
+    writer = csv.DictWriter(output_buffer, fieldnames=fieldnames)
+    writer.writeheader()
+    writer.writerows(cleaned_rows)
+
+    # 5️⃣ Rename file with timestamp
+    timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+    new_file_name = object_key.split("/")[-1].replace(".csv", "")
+    new_key = f"processed/{new_file_name}_dedup_{timestamp}.csv"
+
+    # 6️⃣ Upload cleaned file to S3
+    s3.put_object(
+        Bucket=bucket_name,
+        Key=new_key,
+        Body=output_buffer.getvalue()
+    )
+
+    print(f"Cleaned file uploaded to: {new_key}")
+
+    return {
+        "status": "success",
+        "input_file": object_key,
+        "output_file": new_key,
+        "records_before": len(csv_data.splitlines()) - 1,
+        "records_after": len(cleaned_rows)
+    }

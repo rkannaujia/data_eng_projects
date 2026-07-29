@@ -1,0 +1,2 @@
+{"order_id":"o3","order_ts":"2025-10-01T10:30:00Z","customer_id":"c1","country":"IN","amount":700.0,"status":"Completed"}
+{"order_id":"o4","order_ts":"2025-10-01T10:40:00Z","customer_id":"c3","country":"IN","amount":-50.0,"status":"Refund"}
